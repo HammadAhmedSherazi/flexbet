@@ -54,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
     {
       "title": "Referrals",
       "image": ImageConstant.referralIcon,
-      "toPage":  ReferralScreen()
+      "toPage": ReferralScreen()
     },
     {
       "title": "Become a FlexxBet agent",

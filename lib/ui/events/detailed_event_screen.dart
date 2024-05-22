@@ -38,6 +38,7 @@ class _DetailedEventScreenState extends State<DetailedEventScreen> {
       appBar: const CustomAppBar(
         showBackButton: true,
         showBetCreateButton: false,
+        showCreateEvent: false,
       ),
       body: SingleChildScrollView(
         child: GetBuilder<EventsController>(builder: (controller) {
@@ -49,15 +50,14 @@ class _DetailedEventScreenState extends State<DetailedEventScreen> {
                 !eventModel.isEnded &&
                 !eventModel.isCancelled;
           }
-          return Builder(
-            builder: (context) {
-              if(eventModel!=null){
+          return Builder(builder: (context) {
+            if (eventModel != null) {
               //  final String formattedtime = DateFormat("hh:mm:ss a").format(eventModel!.heldDate.toDate());
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: Get.height * 0.731, child: EventSwiper()),
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: Get.height * 0.745, child: EventSwiper()),
                   /*  Expanded(
                       flex: 7,
                       child: Column(
@@ -117,13 +117,12 @@ class _DetailedEventScreenState extends State<DetailedEventScreen> {
                         ],
                       ),
                     )*/
-                  ],
-                );
-              }else{
-                return Container();
-              }
+                ],
+              );
+            } else {
+              return Container();
             }
-          );
+          });
         }),
       ),
     );
@@ -175,7 +174,10 @@ class _DetailedEventScreenState extends State<DetailedEventScreen> {
                 Text(
                   "Please Read Terms.",
                   style: TextStyle(
-                      color: ColorConstant.primaryColor, fontSize: 18,fontWeight: FontWeight.bold,fontFamily: "Popins"),
+                      color: ColorConstant.primaryColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Popins"),
                 ),
                 const SizedBox(
                   height: 20,
@@ -183,21 +185,19 @@ class _DetailedEventScreenState extends State<DetailedEventScreen> {
                 const Text(
                   "Please read and agree to terms before you proceed.\nPlease read and agree to terms before you proceed\nPlease read and agree to terms before you proceed\nPlease read and agree to terms before you proceed\nPlease read and agree to terms before you proceed",
                   style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14.0,
-                      fontFamily: "Popins"
-                  ),
+                      color: Colors.black,
+                      fontSize: 14.0,
+                      fontFamily: "Popins"),
                 ),
-                const Spacer(
-                ),
-                 CustomButton(
+                const Spacer(),
+                CustomButton(
                   text: "Proceed",
                   fontStyle: ButtonFontStyle.InterSemiBold16,
                   onTap: () {
                     Get.to(const BetScreen());
                   },
-                   height: 48,
-                   width: 307,
+                  height: 48,
+                  width: 307,
                 )
               ],
             ),

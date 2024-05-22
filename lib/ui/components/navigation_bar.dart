@@ -10,13 +10,11 @@ import 'package:get/get.dart';
 
 import '../../models/event_model.dart';
 
-Obx buildBottomNavigationMenu(context) {
+Obx buildBottomNavigationMenu(context, [String? img]) {
   LandingPageController landingPageController = LandingPageController.to;
 
-
-
   return Obx(() => Container(
-        padding: const EdgeInsets.only(left: 12, bottom: 8, right: 12, top: 2),
+        padding: const EdgeInsets.only(left: 36, bottom: 8, right: 36, top: 2),
         height: 90,
         child: Container(
           padding: const EdgeInsets.only(top: 6),
@@ -34,57 +32,73 @@ Obx buildBottomNavigationMenu(context) {
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             showUnselectedLabels: false,
-            showSelectedLabels: true,
+            showSelectedLabels: false,
             onTap: landingPageController.changeTabIndex,
             elevation: 0,
             backgroundColor: Colors.transparent,
             currentIndex: landingPageController.tabIndex.value,
             selectedItemColor: Colors.white,
-            selectedFontSize: 10,
-            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-            unselectedFontSize: 0,
+            // selectedFontSize: 10,
+            // selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            // unselectedFontSize: 0,
             items: [
-              customNavigationBarItem(
-                  label: "Home",
-                  height: 18,
-                  width: 18,
-                  imagePath: ImageConstant.homeIcon1),
+              // customNavigationBarItem(
+              //     label: "Home",
+              //     height: 18,
+              //     width: 18,
+              //     imagePath: ImageConstant.homeIcon1),
               customNavigationBarItem(
                   label: "Games",
-                  width: 19,
-                  height: 19,
+                  width: 30,
+                  height: 30,
                   imagePath: ImageConstant.activeBetIcon,
                   isBagedIcon: true),
               customNavigationBarItem(
-                width: 18,
-                  height: 18,
+                  width: 30,
+                  height: 30,
                   label: "Events",
                   imagePath: ImageConstant.event_icon,
-                   isBagedIcon: true
-              ),
-              customNavigationBarItem(label: "Leaderboard",imagePath: ImageConstant.activeRankIcon,height: 20,width: 20),
+                  isBagedIcon: true),
               customNavigationBarItem(
-                  label: "Profile",
-                  width: 17,
-                  height: 20,
-                  imagePath: ImageConstant.activePersonIcon),
+                label: "Leaderboard",
+                imagePath: ImageConstant.activeRankIcon,
+                height: 30,
+                width: 30,
+              ),
+              BottomNavigationBarItem(
+                icon: CircleAvatar(
+                    // height: 37,
+                    // width: 34,
+                    child: img != null && img.isNotEmpty
+                        ? ClipOval(child: Image.network(img))
+                        : Image.asset(
+                            ImageConstant.avatar3,
+                          )),
+                label: '',
+              ),
+              // customNavigationBarItem(
+              //     label: "Profile",
+              //     width: 37,
+              //     height: 35,
+              //     imagePath: ImageConstant.activePersonIcon),
             ],
           ),
         ),
       ));
 }
+
 EventsController eventsController = EventsController.to;
 final Rxn<List<EventModel>> featuredEvents = Rxn<List<EventModel>>();
 BottomNavigationBarItem customNavigationBarItem(
     {required String imagePath,
-      required String label,
+    required String label,
     bool isBagedIcon = false,
-      int numberOfMessages = 99,
-    required double height ,
-    required double width }) {
+    int numberOfMessages = 99,
+    required double height,
+    required double width}) {
   return BottomNavigationBarItem(
     activeIcon: SizedBox(
-      width: 120,
+      // width: 120,
       child: Column(
         children: [
           badges.Badge(
@@ -94,19 +108,16 @@ BottomNavigationBarItem customNavigationBarItem(
             badgeStyle: const badges.BadgeStyle(
               padding: EdgeInsets.all(3),
               badgeColor: Colors.red,
-
             ),
             badgeContent: Container(
               height: 12,
               width: 12,
               decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(30)
-              ),
+                  color: Colors.red, borderRadius: BorderRadius.circular(30)),
               child: Center(
                 child: Text(
                   eventsController.featuredEvents.value!.length.toString(),
-                  style: const TextStyle(color: Colors.white, fontSize:10),
+                  style: const TextStyle(color: Colors.white, fontSize: 10),
                 ),
               ),
             ),
@@ -117,9 +128,9 @@ BottomNavigationBarItem customNavigationBarItem(
               width: width,
             ),
           ),
-          const SizedBox(
-            height: 8,
-          ),
+          // const SizedBox(
+          //   height: 8,
+          // ),
           // Container( TODO Active Indicator
           //   decoration: BoxDecoration(
           //       color: Colors.white, borderRadius: BorderRadius.circular(60)),
@@ -132,7 +143,7 @@ BottomNavigationBarItem customNavigationBarItem(
     icon: Column(
       children: [
         badges.Badge(
-          position: badges.BadgePosition.topEnd(top: -8,end: -14),
+          position: badges.BadgePosition.topEnd(top: -8, end: -14),
           badgeAnimation: const badges.BadgeAnimation.slide(),
           showBadge: isBagedIcon,
           badgeStyle: const badges.BadgeStyle(
@@ -149,13 +160,17 @@ BottomNavigationBarItem customNavigationBarItem(
             width: width,
           ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(label,style: const TextStyle(color: Colors.white,fontSize: 10,fontWeight: FontWeight.bold),)
+        // const SizedBox(
+        //   height: 10,
+        // ),
+        // Text(
+        //   label,
+        //   style: const TextStyle(
+        //       color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+        // )
       ],
     ),
     label: label,
-   backgroundColor: ColorConstant.whiteA700,
+    backgroundColor: ColorConstant.whiteA700,
   );
 }

@@ -63,7 +63,7 @@ class EventStatusIndictor extends StatelessWidget {
             : isLive
                 ? Container(
                     padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
                     decoration: BoxDecoration(
                       color: ColorConstant.liveEventIndicator.withOpacity(0.6),
                       border:
@@ -77,9 +77,16 @@ class EventStatusIndictor extends StatelessWidget {
                           height: 10,
                           width: 10,
                         ),
-                        const Text(
-                          " Live",
-                          style: TextStyle(color: Colors.white, fontSize: 13),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        const Text( 
+                          "LIVE",
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),

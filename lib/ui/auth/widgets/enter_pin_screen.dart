@@ -99,7 +99,7 @@ class _EnterPinScreenState extends State<EnterPinScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
                 4,
-                    (index) => Padding(
+                (index) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Container(
                     width: 63,
@@ -132,7 +132,8 @@ class _EnterPinScreenState extends State<EnterPinScreen> {
                       onChanged: (value) {
                         if (value.isNotEmpty && index < 3) {
                           _focusNodes[index].unfocus();
-                          FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
+                          FocusScope.of(context)
+                              .requestFocus(_focusNodes[index + 1]);
                         }
                       },
                     ),
@@ -143,20 +144,24 @@ class _EnterPinScreenState extends State<EnterPinScreen> {
             const SizedBox(
               height: 50,
             ),
-           _isLoading?Center(child: CircularProgressIndicator(),) :CustomButton(
-              text: "submit".toUpperCase(),
-              fontStyle: ButtonFontStyle.PoppinsSemiBold14WhiteA700,
-              onTap: () {
-                String enteredPin = _controllers
-                    .map((controller) => controller.text)
-                    .join();
-                if (enteredPin == widget.pin) {
-                  navigateToHome();
-                } else {
-                  showToast();
-                }
-              },
-            ),
+            _isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : CustomButton(
+                    text: "submit".toUpperCase(),
+                    fontStyle: ButtonFontStyle.PoppinsSemiBold14WhiteA700,
+                    onTap: () {
+                      String enteredPin = _controllers
+                          .map((controller) => controller.text)
+                          .join();
+                      if (enteredPin == widget.pin) {
+                        navigateToHome();
+                      } else {
+                        showToast();
+                      }
+                    },
+                  ),
             Spacer(),
             GestureDetector(
               onTap: () {
@@ -185,7 +190,7 @@ class _EnterPinScreenState extends State<EnterPinScreen> {
       _isLoading = true;
     });
     Get.log('Send to Detailed event screen');
-    LandingPageController.to.changeTabIndex(1);
+    LandingPageController.to.changeTabIndex(0);
     setState(() {
       _isLoading = false;
     });
@@ -194,10 +199,11 @@ class _EnterPinScreenState extends State<EnterPinScreen> {
 
   void showToast() {
     Fluttertoast.showToast(
-        msg: "Pin is Incorrect",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-
-    );}}
+      msg: "Pin is Incorrect",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.TOP,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+    );
+  }
+}

@@ -21,8 +21,14 @@ import 'custom_image_view.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key, this.showBackButton,this.showBetCreateButton});
+  const CustomAppBar({
+    super.key,
+    this.showBackButton,
+    this.showBetCreateButton,
+    this.showCreateEvent = true,
+  });
   final bool? showBackButton;
+  final bool showCreateEvent;
   final bool? showBetCreateButton;
 
   @override
@@ -43,42 +49,50 @@ class _CustomAppBarState extends State<CustomAppBar> {
             Get.currentRoute != "/landing-page") &&
         _landingPageController.tabIndex.value != 0;
     return AppBar(
-      iconTheme: IconThemeData(
-        color: ColorConstant.whiteA700
-      ),
+      iconTheme: IconThemeData(color: ColorConstant.whiteA700),
       systemOverlayStyle: SystemUiOverlayStyle(
         // Status bar color
         statusBarColor: ColorConstant.primaryColor,
         statusBarIconBrightness: Brightness.light,
       ),
-      toolbarHeight: Get.height*2,
+      toolbarHeight: Get.height * 2,
       actions: [
-        Stack(
-          children: [
-            InkWell(
-              onTap: (){
-                _showPopup(context);
-              },
-              child: Container(
-                height: 40,
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [ColorConstant.deepPurpleA200,ColorConstant.orange]
-                    ),
-                    shape: BoxShape.rectangle,
-                   borderRadius: const BorderRadius.only(topRight: Radius.circular(18),bottomRight: Radius.elliptical(50,70))
-
+        if (widget.showCreateEvent)
+          Stack(
+            children: [
+              InkWell(
+                onTap: () {
+                  _showPopup(context);
+                },
+                child: Container(
+                  height: 40,
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        ColorConstant.deepPurpleA200,
+                        ColorConstant.orange
+                      ]),
+                      shape: BoxShape.rectangle,
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(18),
+                          bottomRight: Radius.elliptical(50, 70))),
+                  child: Center(
+                      child: Text(
+                    MyConstant.createEventTitle,
+                    style: TextStyle(
+                        color: ColorConstant.whiteA700,
+                        fontFamily: "Popins",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16),
+                  )),
                 ),
-                child: Center(child:  Text(MyConstant.createEventTitle,style: TextStyle(color: ColorConstant.whiteA700,fontFamily: "Popins",fontWeight: FontWeight.w600,fontSize: 16),)),
               ),
-            ),
-            Positioned(
-                left: 6,
-                top: 2,
-                child: SvgPicture.asset(ImageConstant.starIcon))
-          ],
-        ),
+              Positioned(
+                  left: 6,
+                  top: 2,
+                  child: SvgPicture.asset(ImageConstant.starIcon))
+            ],
+          ),
         IconButton(
             onPressed: () {
               Get.to(() => NotificationsScreen());
@@ -150,6 +164,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           : Get.width / 2.5,
     );
   }
+
   void _showPopup(BuildContext context) {
     showDialog(
       context: context,
@@ -158,7 +173,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           backgroundColor: Colors.black.withOpacity(0.5),
           contentPadding: EdgeInsets.zero,
           content: Container(
-            height: Get.height/1.5,
+            height: Get.height / 1.5,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [ColorConstant.gradiant1, ColorConstant.gradiant2],
@@ -205,7 +220,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         }
                       }),
                 ),
-                *//*Text(
+                */ /*Text(
                   "Please Read Terms.",
                   style: TextStyle(
                       color: ColorConstant.primaryColor, fontSize: 18,fontWeight: FontWeight.bold,fontFamily: "Popins"),
@@ -214,7 +229,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   height: 20,
                 ),
                 const Spacer(
-                ),*//*
+                ),*/ /*
                 const SizedBox(height: 10.0,),
                 CustomButton(
                   text: "Proceed",

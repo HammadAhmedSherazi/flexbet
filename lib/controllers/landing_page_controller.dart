@@ -5,7 +5,7 @@ import 'package:flexx_bet/ui/profile/profile_ui.dart';
 import 'package:get/get.dart';
 
 class LandingPageController extends GetxController {
-  var tabIndex = 1.obs;
+  var tabIndex = 0.obs;
   static LandingPageController to = Get.find();
   Function onChange = () {
     Get.log("LandingPageController onChanged");
@@ -24,7 +24,7 @@ class LandingPageController extends GetxController {
       tabIndex.value = index;
       Get.offAll(() => LandingPage());
     }
-    if(index == 1){
+    if (index == 0) {
       EventsController eventsController = EventsController.to;
       eventsController.categoryName.value = null;
       eventsController.userFilteredAmount.value = null;
@@ -33,7 +33,7 @@ class LandingPageController extends GetxController {
 
     if (index == 2) {
       // Get.to(() => const BanterScreen());
-    } else if (index == 4) {
+    } else if (index == 3) {
       Get.to(() => ProfileScreen());
     } else {
       tabIndex.value = index;

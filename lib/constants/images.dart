@@ -16,6 +16,7 @@ class ImageConstant {
   static const String followMeIcon = 'assets/images/follow_me.png';
   static const String successCard = 'assets/images/success_card.png';
   static const String filterButton = 'assets/images/filter_button.png';
+  static const String newfilterButton = 'assets/images/Slider.png';
   static const String liveCircles = 'assets/images/live_circles.png';
   static const String checkMark = 'assets/images/check_mark.png';
   static const String cross = 'assets/images/cross.png';
