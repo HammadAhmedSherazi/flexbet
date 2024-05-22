@@ -229,6 +229,7 @@ class ImageConstant {
   static const String iconCamera = 'assets/images/icon_camera.png';
   static const String iconGallery = 'assets/images/icon_gallery.png';
   static const String iconAdmin = 'assets/images/icon_admin.png';
+  static const String iconAdmin2 = 'assets/images/iconAdmin2.png';
   static const String iconParticipant = 'assets/images/icon_participants.png';
   static const String iconPng = 'assets/images/icon_png.png';
 

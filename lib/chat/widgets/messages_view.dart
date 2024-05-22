@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flexx_bet/chat/chat_controller.dart';
 import 'package:flexx_bet/chat/chat_service.dart';
 import 'package:flexx_bet/chat/widgets/chat_user_info.dart';
@@ -11,7 +13,9 @@ import 'package:flexx_bet/utils/file_utils.dart';
 import 'package:flexx_bet/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class MessagesView extends StatefulWidget {
   const MessagesView({super.key});
@@ -40,7 +44,7 @@ class _MessagesViewState extends State<MessagesView> {
     return Column(
       children: [
         Container(
-          height: 200,
+          height: 222,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(
@@ -77,12 +81,16 @@ class _MessagesViewState extends State<MessagesView> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 5,
+                vertical: 7,
+              ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.asset(
                         image(),
@@ -90,20 +98,27 @@ class _MessagesViewState extends State<MessagesView> {
                         width: 30,
                       ),
                       Container(
-                        width: 130,
-                        height: 20,
+                        // width: 130,
+                        // height: 20,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 11,
+                        ),
                         decoration: BoxDecoration(
-                            color: ColorConstant.primaryColor,
-                            borderRadius: BorderRadius.circular(30)),
+                          color: ColorConstant.primaryColor,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
                               "Event Pool",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: "Popins",
-                                  fontSize: 14),
+                                color: Colors.white,
+                                fontFamily: "Popins",
+                                fontWeight: FontWeight.w500,
+                                fontSize: 11,
+                              ),
                             ),
                             Text(
                               " ₦${controller.getGroupMember(
@@ -111,54 +126,77 @@ class _MessagesViewState extends State<MessagesView> {
                                         ?.data() as Map?,
                                   ) ?? "0"}",
                               style: const TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: "Popins",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14),
+                                color: Colors.white,
+                                fontFamily: "Popins",
+                                fontWeight: FontWeight.w800,
+                                fontSize: 11,
+                              ),
                             )
                           ],
                         ),
                       ),
-                      Image.asset(
-                        ImageConstant.shareIcon,
-                        fit: BoxFit.fill,
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.black,
+                        child: SvgPicture.asset(
+                          'assets/images/Subtract.svg',
+                        ),
                       ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 22,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "${controller.getGroupDescription(groupData: controller.currentGroup.value?.data() as Map?)}",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                        ),
+                        child: Text(
+                          // 'Omah Lay will drop a new Album this weekend.',
+                          "${controller.getGroupDescription(groupData: controller.currentGroup.value?.data() as Map?)}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Container(
-                        height: 4,
+                        height: 7,
                         width: 250,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            gradient: LinearGradient(
-                                colors: [
-                                  ColorConstant.red1,
-                                  ColorConstant.greenLight1,
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.topRight)),
+                          borderRadius: BorderRadius.circular(30),
+                          gradient: LinearGradient(
+                            colors: [
+                              ColorConstant.red1,
+                              ColorConstant.greenLight1,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.topRight,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  isLoading ? const Center(child: CircularProgressIndicator()) : SizedBox(
-                    width: 250,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                                height: 50,
-                                width: 60,
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : SizedBox(
+                          width: 250,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                height: 60,
+                                width: 70,
                                 child: Stack(
                                   alignment: Alignment.bottomLeft,
                                   children: [
@@ -170,8 +208,8 @@ class _MessagesViewState extends State<MessagesView> {
                                                 isLoading = true;
                                               });
 
-                                              Future.delayed(
-                                                      const Duration(seconds: 1))
+                                              Future.delayed(const Duration(
+                                                      seconds: 1))
                                                   .then((value) async {
                                                 var data = {
                                                   'selectedOutCome': 'No',
@@ -179,64 +217,77 @@ class _MessagesViewState extends State<MessagesView> {
                                                   // Add more key-value pairs as needed
                                                 };
 
-                                                await controller.addOutcomeToGroup(
-                                                    "chatrooms",
-                                                    controller.currentGroup
-                                                            .value?.id ??
-                                                        "",
-                                                    data,
-                                                    controller.uid);
+                                                await controller
+                                                    .addOutcomeToGroup(
+                                                        "chatrooms",
+                                                        controller.currentGroup
+                                                                .value?.id ??
+                                                            "",
+                                                        data,
+                                                        controller.uid);
 
                                                 getCount();
                                               });
                                             },
                                       child: Container(
-                                        height: 40,
-                                        width: 40,
+                                        height: 60,
+                                        width: 60,
                                         margin:
                                             const EdgeInsets.only(left: 10.0),
                                         decoration: BoxDecoration(
-                                            color: isAnswered
-                                                ? ColorConstant.gray
-                                                : ColorConstant.red1,
-                                            borderRadius:
-                                                BorderRadius.circular(30)),
+                                          shape: BoxShape.circle,
+
+                                          color: isAnswered
+                                              ? ColorConstant.gray
+                                              : ColorConstant.red1,
+                                          // borderRadius:
+                                          //     BorderRadius.circular(30),
+                                        ),
                                         child: const Center(
                                           child: Text(
-                                            "No",
+                                            "NO",
                                             style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "Popins"),
+                                              color: Colors.white,
+                                              fontSize: 27,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Popins",
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
                                     Container(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 5.0),
+                                        horizontal: 5.0,
+                                      ),
+                                      width: 21,
                                       margin:
                                           const EdgeInsets.only(bottom: 5.0),
                                       decoration: BoxDecoration(
-                                          color: ColorConstant.grey1,
+                                          color: Colors.white,
                                           borderRadius:
                                               BorderRadius.circular(30)),
                                       child: Text(
-                                        controller.noCount.toString() ?? '',
+                                        formatCount(
+                                          controller.noCount.toString(),
+                                        ),
+                                        // controller.noCount.toString(),
                                         style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "Popins"),
+                                          color: Colors.black,
+                                          fontSize: 8,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: "Popins",
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 1,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                       SizedBox(
-                                height: 50,
-                                width: 60,
+                              SizedBox(
+                                height: 60,
+                                width: 70,
                                 child: Stack(
                                   alignment: Alignment.bottomRight,
                                   children: [
@@ -247,8 +298,8 @@ class _MessagesViewState extends State<MessagesView> {
                                               setState(() {
                                                 isLoading = true;
                                               });
-                                              Future.delayed(
-                                                      const Duration(seconds: 1))
+                                              Future.delayed(const Duration(
+                                                      seconds: 1))
                                                   .then((value) async {
                                                 var data = {
                                                   'selectedOutCome': 'Yes',
@@ -256,65 +307,79 @@ class _MessagesViewState extends State<MessagesView> {
                                                   // Add more key-value pairs as needed
                                                 };
 
-                                               await controller.addOutcomeToGroup(
-                                                    "chatrooms",
-                                                    controller.currentGroup
-                                                            .value?.id ??
-                                                        "",
-                                                    data,
-                                                    controller.uid);
+                                                await controller
+                                                    .addOutcomeToGroup(
+                                                        "chatrooms",
+                                                        controller.currentGroup
+                                                                .value?.id ??
+                                                            "",
+                                                        data,
+                                                        controller.uid);
 
                                                 getCount();
                                               });
-
                                             },
                                       child: Container(
-                                        height: 40,
-                                        width: 40,
+                                        height: 60,
+                                        width: 60,
                                         margin:
                                             const EdgeInsets.only(right: 10.0),
                                         decoration: BoxDecoration(
-                                            color: isAnswered
-                                                ? ColorConstant.gray
-                                                : ColorConstant.greenLight,
-                                            borderRadius:
-                                                BorderRadius.circular(30)),
+                                          shape: BoxShape.circle,
+
+                                          color: isAnswered
+                                              ? ColorConstant.gray
+                                              : ColorConstant.greenLight,
+                                          // borderRadius:
+                                          //     BorderRadius.circular(30),
+                                        ),
                                         child: const Center(
                                           child: Text(
-                                            "Yes",
+                                            "YES",
                                             style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "Popins"),
+                                              color: Colors.white,
+                                              fontSize: 27,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Popins",
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
                                     Container(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 5.0),
+                                        horizontal: 5.0,
+                                      ),
+                                      constraints: const BoxConstraints(
+                                        minWidth: 21,
+                                        maxHeight: 25,
+                                      ),
                                       margin:
                                           const EdgeInsets.only(bottom: 5.0),
                                       decoration: BoxDecoration(
-                                          color: ColorConstant.grey1,
+                                          color: Colors.white,
                                           borderRadius:
                                               BorderRadius.circular(30)),
                                       child: Text(
-                                        controller.yesCount.toString() ?? '',
+                                        formatCount(
+                                          controller.yesCount.toString(),
+                                        ),
+                                        // controller.noCount.toString() ,
                                         style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "Popins"),
+                                          color: Colors.black,
+                                          fontSize: 8,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: "Popins",
+                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
                                     ),
                                   ],
                                 ),
-                              )
-                      ],
-                    ),
-                  ),
+                              ),
+                            ],
+                          ),
+                        ),
                   Container()
                 ],
               ),
@@ -324,23 +389,26 @@ class _MessagesViewState extends State<MessagesView> {
         const SizedBox(
           height: 10,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(ImageConstant.unsplash),
-            const SizedBox(
-              width: 8,
-            ),
-            Text(
-              "Please abide to the rules!",
-              style:
-                  TextStyle(color: ColorConstant.gray500, fontFamily: "Popins"),
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            Image.asset(ImageConstant.pushpin),
-          ],
+        SizedBox(
+          height: 35,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(ImageConstant.unsplash),
+              const SizedBox(
+                width: 8,
+              ),
+              Text(
+                "Please abide to the rules!",
+                style: TextStyle(
+                    color: ColorConstant.gray500, fontFamily: "Popins"),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Image.asset(ImageConstant.pushpin),
+            ],
+          ),
         ),
 
         ///MessagesView
@@ -424,76 +492,182 @@ class _MessagesViewState extends State<MessagesView> {
               .getChats(controller.currentGroup.value?.id ?? ""),
           builder: (context, AsyncSnapshot snapshot) {
             return snapshot.hasData
-                ? ListView.builder(
+                ? ListView.separated(
                     controller: _scrollController,
-                    itemCount: snapshot.data.docs.length,
+                    itemCount: snapshot.data.docs.length + 1,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 18, horizontal: 20),
+                    separatorBuilder: (_, i) => const SizedBox(
+                      height: 10,
+                    ),
                     itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Get.dialog(const ChatUserInfoCard(),
-                                      arguments: {
-                                        "userId": snapshot.data.docs[index]
-                                            ['senderId'],
-                                        "group": controller.currentGroup.value
-                                            ?.data(),
-                                      });
-                                },
+                      if (index == snapshot.data.docs.length) {
+                        return Center(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 7),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0Xff6F6F87),
+                                    offset: Offset(0, 0),
+                                    spreadRadius: -4,
+                                    blurRadius: 8,
+                                  )
+                                ]),
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: '@johdoe ',
+                                    style: TextStyle(
+                                      fontFamily: "Popins",
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.w500,
+                                      color: ColorConstant.primaryColor,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: 'just joined the group',
+                                    style: TextStyle(
+                                      fontFamily: "Popins",
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.dialog(const ChatUserInfoCard(),
+                                    arguments: {
+                                      "userId": snapshot.data.docs[index]
+                                          ['senderId'],
+                                      "group":
+                                          controller.currentGroup.value?.data(),
+                                    });
+                              },
+                              child: SizedBox(
+                                height: 38,
+                                width: 42,
                                 child: Stack(
                                   alignment: Alignment.topRight,
                                   children: [
-                                    Container(
-                                      margin: const EdgeInsets.all(5.0),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        child: FutureBuilder(
-                                            future: controller.chatService
-                                                .getUserImage(
-                                                    userId: snapshot
-                                                            .data.docs[index]
-                                                        ['senderId']),
-                                            builder: (context, data) {
-                                              if (data.hasData &&
-                                                  data.data != null &&
-                                                  data.data is String &&
-                                                  (data.data as String)
-                                                      .isNotEmpty) {
-                                                return SizedBox(
-                                                  height: 30.0,
-                                                  width: 30.0,
-                                                  child: FadeInImage(
-                                                    fit: BoxFit.cover,
-                                                    placeholder:
-                                                        const AssetImage(
-                                                            ImageConstant
-                                                                .unsplash),
-                                                    imageErrorBuilder: (context,
-                                                        obj, stacktrace) {
-                                                      return Image.asset(
+                                    Positioned(
+                                      top: 0,
+                                      left: 0,
+                                      child: Container(
+                                        height: 38,
+                                        width: 38,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: ClipOval(
+                                          child: FutureBuilder(
+                                              future: controller.chatService
+                                                  .getUserImage(
+                                                      userId: snapshot
+                                                              .data.docs[index]
+                                                          ['senderId']),
+                                              builder: (context, data) {
+                                                if (data.hasData &&
+                                                    data.data != null &&
+                                                    data.data is String &&
+                                                    (data.data as String)
+                                                        .isNotEmpty) {
+                                                  return SizedBox(
+                                                    height: 38,
+                                                    width: 38,
+                                                    child: FadeInImage(
+                                                      fit: BoxFit.cover,
+                                                      placeholder:
+                                                          const AssetImage(
+                                                              ImageConstant
+                                                                  .unsplash),
+                                                      imageErrorBuilder:
+                                                          (context, obj,
+                                                              stacktrace) {
+                                                        return Image.asset(
+                                                          ImageConstant
+                                                              .unsplash,
+                                                          fit: BoxFit.cover,
+                                                        );
+                                                      },
+                                                      image: NetworkImage(
+                                                          "${data.data!}"),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return SizedBox(
+                                                      height: 30.0,
+                                                      width: 30.0,
+                                                      child: Image.asset(
                                                         ImageConstant.unsplash,
                                                         fit: BoxFit.cover,
-                                                      );
-                                                    },
-                                                    image: NetworkImage(
-                                                        "${data.data!}"),
-                                                  ),
-                                                );
-                                              } else {
-                                                return SizedBox(
-                                                    height: 30.0,
-                                                    width: 30.0,
-                                                    child: Image.asset(
-                                                      ImageConstant.unsplash,
-                                                      fit: BoxFit.cover,
-                                                    ));
-                                              }
-                                            }),
+                                                      ));
+                                                }
+                                              }),
+                                        ),
                                       ),
+                                    ),
+                                    // if (snapshot.data.docs[index]['senderId'] ==
+                                    //     ((controller.currentGroup.value!.data()
+                                    //             as Map)["admin"] as String)
+                                    //         .getFirstValueAfterUnderscore())
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: Container(
+                                        height: 12,
+                                        width: 12,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Color(0xff1BF631),
+                                              Color(0xff00AE11),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      snapshot.data.docs[index]['sender']
+                                          .toString(),
+                                      style: TextStyle(
+                                        fontFamily: "Popins",
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 3,
                                     ),
                                     if (snapshot.data.docs[index]['senderId'] ==
                                         ((controller.currentGroup.value!.data()
@@ -502,102 +676,303 @@ class _MessagesViewState extends State<MessagesView> {
                                       Align(
                                         alignment: Alignment.topRight,
                                         child: SizedBox(
-                                            height: 20.0,
-                                            width: 20.0,
-                                            child: Image.asset(
-                                              ImageConstant.iconAdmin,
-                                              fit: BoxFit.cover,
-                                            )),
+                                          height: 20.0,
+                                          width: 20.0,
+                                          child: Image.asset(
+                                            ImageConstant.iconAdmin2,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                       )
                                   ],
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  () {
-                                    if (snapshot.data.docs[index]['type'] ==
-                                        MessageType.text.name) {
-                                      return Text(
-                                        "${snapshot.data.docs[index]['message'] ?? ""}",
-                                        style: TextStyle(
-                                            color: ColorConstant.black900,
-                                            fontFamily: "Popins"),
-                                      );
-                                    } else if (snapshot.data.docs[index]
-                                            ['type'] ==
-                                        MessageType.image.name) {
-                                      return ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        child: Image.network(
-                                          "${snapshot.data.docs[index]['image'] ?? ""}",
-                                          width: 150,
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 1,
+                                        horizontal: 12,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Color(0X40FFC700),
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12),
+                                          bottomRight: Radius.circular(12),
                                         ),
-                                      );
-                                    } else {
-                                      return Text(
-                                        "${snapshot.data.docs[index]['message'] ?? ""}",
+                                      ),
+                                      child: (snapshot.data.docs[index]
+                                                  ['type'] ==
+                                              MessageType.image.name)
+                                          ? ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              child: Image.network(
+                                                "${snapshot.data.docs[index]['image'] ?? ""}",
+                                                width: 150,
+                                              ),
+                                            )
+                                          : Text(
+                                              snapshot.data.docs[index]
+                                                      ['message'] ??
+                                                  "",
+                                              style: TextStyle(
+                                                fontFamily: "Popins",
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 24,
+                                      width: 24,
+                                      child: Image.asset(
+                                        'assets/images/faceplus.png',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.only(right: 5),
+                                      decoration: BoxDecoration(
+                                        color: Color(0XFFCCCCCC),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Text(
+                                        "😀 ${formatCount('0')}",
                                         style: TextStyle(
-                                            color: ColorConstant.black900,
-                                            fontFamily: "Popins"),
-                                      );
-                                    }
-                                  }(),
-                                  const SizedBox(
-                                    height: 15,
+                                          fontFamily: "Popins",
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 3,
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(right: 5),
+                                      decoration: BoxDecoration(
+                                        color: Color(0XFFCCCCCC),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Text(
+                                        "🔥  ${formatCount('0')}",
+                                        style: TextStyle(
+                                          fontFamily: "Popins",
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                Text(
+                                  convertTimestamp(
+                                      snapshot.data.docs[index]['createdAt']),
+                                  style: TextStyle(
+                                    fontFamily: "Popins",
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xff9191A8),
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Image.asset(ImageConstant.heart),
-                                      Text(
-                                        "  ___",
-                                        style: TextStyle(
-                                            color: ColorConstant.black900,
-                                            fontFamily: "Popins"),
-                                      ),
-                                      const SizedBox(
-                                        width: 16,
-                                      ),
-                                      Image.asset(ImageConstant.message),
-                                      Text(
-                                        "  ___",
-                                        style: TextStyle(
-                                            color: ColorConstant.black900,
-                                            fontFamily: "Popins"),
-                                      ),
-                                      /* const SizedBox(
-                          width: 16,
-                        ),
-                        Image.asset(ImageConstant.eye),
-                        Text(
-                          "  ___",
-                                style: TextStyle(
-                                    color: ColorConstant.black900,
-                              fontFamily: "Popins"),
-                        ),*/
-                                      /*const SizedBox(
-                          width: 16,
-                        ),
-                        Image.asset(ImageConstant.export),
-                        const SizedBox(
-                          width: 40,
-                        ),*/
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
+                                ),
+                              ],
+                            )
+                          ],
+                        );
+                      }
+                      // return Column(
+                      //   children: [
+                      //     Row(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Get.dialog(const ChatUserInfoCard(),
+                      //         arguments: {
+                      //           "userId": snapshot.data.docs[index]
+                      //               ['senderId'],
+                      //           "group": controller.currentGroup.value
+                      //               ?.data(),
+                      //         });
+                      //   },
+                      //   child: Stack(
+                      //     alignment: Alignment.topRight,
+                      //     children: [
+                      //       Container(
+                      //         margin: const EdgeInsets.all(5.0),
+                      //         child: ClipRRect(
+                      //           borderRadius:
+                      //               BorderRadius.circular(15.0),
+                      //           child: FutureBuilder(
+                      //               future: controller.chatService
+                      //                   .getUserImage(
+                      //                       userId: snapshot
+                      //                               .data.docs[index]
+                      //                           ['senderId']),
+                      //               builder: (context, data) {
+                      //                 if (data.hasData &&
+                      //                     data.data != null &&
+                      //                     data.data is String &&
+                      //                     (data.data as String)
+                      //                         .isNotEmpty) {
+                      //                   return SizedBox(
+                      //                     height: 30.0,
+                      //                     width: 30.0,
+                      //                     child: FadeInImage(
+                      //                       fit: BoxFit.cover,
+                      //                       placeholder:
+                      //                           const AssetImage(
+                      //                               ImageConstant
+                      //                                   .unsplash),
+                      //                       imageErrorBuilder: (context,
+                      //                           obj, stacktrace) {
+                      //                         return Image.asset(
+                      //                           ImageConstant.unsplash,
+                      //                           fit: BoxFit.cover,
+                      //                         );
+                      //                       },
+                      //                       image: NetworkImage(
+                      //                           "${data.data!}"),
+                      //                     ),
+                      //                   );
+                      //                 } else {
+                      //                   return SizedBox(
+                      //                       height: 30.0,
+                      //                       width: 30.0,
+                      //                       child: Image.asset(
+                      //                         ImageConstant.unsplash,
+                      //                         fit: BoxFit.cover,
+                      //                       ));
+                      //                 }
+                      //               }),
+                      //         ),
+                      //       ),
+                      //       if (snapshot.data.docs[index]['senderId'] ==
+                      //           ((controller.currentGroup.value!.data()
+                      //                   as Map)["admin"] as String)
+                      //               .getFirstValueAfterUnderscore())
+                      //         Align(
+                      //           alignment: Alignment.topRight,
+                      //           child: SizedBox(
+                      //               height: 20.0,
+                      //               width: 20.0,
+                      //               child: Image.asset(
+                      //                 ImageConstant.iconAdmin,
+                      //                 fit: BoxFit.cover,
+                      //               )),
+                      //         )
+                      //     ],
+                      //   ),
+                      // ),
+                      //         const SizedBox(
+                      //           width: 15,
+                      //         ),
+                      //         Column(
+                      //           crossAxisAlignment: CrossAxisAlignment.start,
+                      //           children: [
+                      //             () {
+                      //               if (snapshot.data.docs[index]['type'] ==
+                      //                   MessageType.text.name) {
+                      //                 return Text(
+                      //                   "${snapshot.data.docs[index]['message'] ?? ""}",
+                      //                   style: TextStyle(
+                      //                       color: ColorConstant.black900,
+                      //                       fontFamily: "Popins"),
+                      //                 );
+                      //               } else if (snapshot.data.docs[index]
+                      //                       ['type'] ==
+                      //                   MessageType.image.name) {
+                      //                 return ClipRRect(
+                      //                   borderRadius:
+                      //                       BorderRadius.circular(10.0),
+                      //                   child: Image.network(
+                      //                     "${snapshot.data.docs[index]['image'] ?? ""}",
+                      //                     width: 150,
+                      //                   ),
+                      //                 );
+                      //               } else {
+                      //                 return Text(
+                      //                   "${snapshot.data.docs[index]['message'] ?? ""}",
+                      //                   style: TextStyle(
+                      //                       color: ColorConstant.black900,
+                      //                       fontFamily: "Popins"),
+                      //                 );
+                      //               }
+                      //             }(),
+                      //             const SizedBox(
+                      //               height: 15,
+                      //             ),
+                      //             Row(
+                      //               mainAxisAlignment: MainAxisAlignment.start,
+                      //               children: [
+                      //                 Image.asset(ImageConstant.heart),
+                      //                 Text(
+                      //                   "  ___",
+                      //                   style: TextStyle(
+                      //                       color: ColorConstant.black900,
+                      //                       fontFamily: "Popins"),
+                      //                 ),
+                      //                 const SizedBox(
+                      //                   width: 16,
+                      //                 ),
+                      //                 Image.asset(ImageConstant.message),
+                      //                 Text(
+                      //                   "  ___",
+                      //                   style: TextStyle(
+                      //                       color: ColorConstant.black900,
+                      //                       fontFamily: "Popins"),
+                      //                 ),
+                      //                 /* const SizedBox(
+                      //     width: 16,
+                      //   ),
+                      //   Image.asset(ImageConstant.eye),
+                      //   Text(
+                      //     "  ___",
+                      //           style: TextStyle(
+                      //               color: ColorConstant.black900,
+                      //         fontFamily: "Popins"),
+                      //   ),*/
+                      //                 /*const SizedBox(
+                      //     width: 16,
+                      //   ),
+                      //   Image.asset(ImageConstant.export),
+                      //   const SizedBox(
+                      //     width: 40,
+                      //   ),*/
+                      //               ],
+                      //             ),
+                      //             const SizedBox(
+                      //               height: 12,
+                      //             )
+                      //           ],
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ],
+                      // );
                     },
                   )
                 : Container();
@@ -641,193 +1016,169 @@ class _MessagesViewState extends State<MessagesView> {
 
         ///Chat Footer
         SizedBox(
-          height: 40.0,
+          height: 50.0,
           child: Row(
             children: [
               Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: ColorConstant.gray500)),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: msgController,
-                          scrollController: _scrollController,
-                          maxLines: 1,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14),
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 10.0),
-                            isDense: true,
-                            hintText: "Send a message",
-                            hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 14),
-                            border: InputBorder.none,
-                          ),
+                child: TextFormField(
+                  controller: msgController,
+                  maxLines: 1,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14),
+                  decoration: InputDecoration(
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        showAlertDialog(
+                            titleText: 'Choose an option',
+                            infoText:
+                                "choose one of the option from following to continue",
+                            extraDetails: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 20.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      FileUtils.getImageFromCamera()
+                                          .then((value) async {
+                                        if (value != null) {
+                                          var url =
+                                              await controller.uploadChatImage(
+                                                  context: context,
+                                                  groupId: controller
+                                                          .currentGroup
+                                                          .value
+                                                          ?.id ??
+                                                      "",
+                                                  image: value);
+                                          controller
+                                              .sendMessage(
+                                                  groupId: controller
+                                                          .currentGroup
+                                                          .value
+                                                          ?.id ??
+                                                      "",
+                                                  message: msgController.text,
+                                                  messageType:
+                                                      MessageType.image.name,
+                                                  senderId: controller.uid,
+                                                  senderName: controller
+                                                          .currentUserData.value
+                                                          .getValueOfKey(
+                                                              "name") ??
+                                                      "",
+                                                  image: url)
+                                              .then((value) {
+                                            msgController.clear();
+                                            Get.back();
+                                            Future.delayed(
+                                                const Duration(seconds: 1),
+                                                () async {
+                                              _scrollController.animateTo(
+                                                _scrollController
+                                                    .position.maxScrollExtent,
+                                                duration: const Duration(
+                                                    milliseconds: 100),
+                                                curve: Curves.easeOut,
+                                              );
+                                            });
+                                          });
+                                        }
+                                      });
+                                    },
+                                    child: Image.asset(
+                                      ImageConstant.iconCamera,
+                                      height: 60.0,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 40.0,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      FileUtils.getImageFromGallery()
+                                          .then((value) async {
+                                        if (value != null) {
+                                          var url =
+                                              await controller.uploadChatImage(
+                                                  context: context,
+                                                  groupId: controller
+                                                          .currentGroup
+                                                          .value
+                                                          ?.id ??
+                                                      "",
+                                                  image: value);
+                                          controller
+                                              .sendMessage(
+                                                  groupId: controller
+                                                          .currentGroup
+                                                          .value
+                                                          ?.id ??
+                                                      "",
+                                                  message: msgController.text,
+                                                  messageType:
+                                                      MessageType.image.name,
+                                                  senderId: controller.uid,
+                                                  senderName: controller
+                                                          .currentUserData.value
+                                                          .getValueOfKey(
+                                                              "name") ??
+                                                      "",
+                                                  image: url)
+                                              .then((value) {
+                                            msgController.clear();
+                                            Get.back();
+                                            Future.delayed(
+                                                const Duration(seconds: 1),
+                                                () async {
+                                              _scrollController.animateTo(
+                                                _scrollController
+                                                    .position.maxScrollExtent,
+                                                duration: const Duration(
+                                                    milliseconds: 100),
+                                                curve: Curves.easeOut,
+                                              );
+                                            });
+                                          });
+                                        }
+                                      });
+                                    },
+                                    child: Image.asset(
+                                      ImageConstant.iconGallery,
+                                      height: 60.0,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Image.asset(
+                          'assets/images/Actions.png',
+                          width: 22,
+                          height: 18,
                         ),
                       ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     setState(() {
-                      //       _emojiShowing = !_emojiShowing;
-                      //     });
-                      //   },
-                      //   child: const SizedBox(
-                      //       height: 30.0,
-                      //       width: 30.0,
-                      //       child: Icon(
-                      //         Icons.emoji_emotions_outlined,
-                      //         color: Colors.grey,
-                      //       )),
-                      // ),
-                      GestureDetector(
-                        onTap: () {
-                          showAlertDialog(
-                              titleText: 'Choose an option',
-                              infoText:
-                                  "choose one of the option from following to continue",
-                              extraDetails: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 20.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        FileUtils.getImageFromCamera()
-                                            .then((value) async {
-                                          if (value != null) {
-                                            var url = await controller
-                                                .uploadChatImage(
-                                                    context: context,
-                                                    groupId: controller
-                                                            .currentGroup
-                                                            .value
-                                                            ?.id ??
-                                                        "",
-                                                    image: value);
-                                            controller
-                                                .sendMessage(
-                                                    groupId: controller
-                                                            .currentGroup
-                                                            .value
-                                                            ?.id ??
-                                                        "",
-                                                    message: msgController.text,
-                                                    messageType:
-                                                        MessageType.image.name,
-                                                    senderId: controller.uid,
-                                                    senderName: controller
-                                                            .currentUserData
-                                                            .value
-                                                            .getValueOfKey(
-                                                                "name") ??
-                                                        "",
-                                                    image: url)
-                                                .then((value) {
-                                              msgController.clear();
-                                              Get.back();
-                                              Future.delayed(
-                                                  const Duration(seconds: 1),
-                                                  () async {
-                                                _scrollController.animateTo(
-                                                  _scrollController
-                                                      .position.maxScrollExtent,
-                                                  duration: const Duration(
-                                                      milliseconds: 100),
-                                                  curve: Curves.easeOut,
-                                                );
-                                              });
-                                            });
-                                          }
-                                        });
-                                      },
-                                      child: Image.asset(
-                                        ImageConstant.iconCamera,
-                                        height: 60.0,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 40.0,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        FileUtils.getImageFromGallery()
-                                            .then((value) async {
-                                          if (value != null) {
-                                            var url = await controller
-                                                .uploadChatImage(
-                                                    context: context,
-                                                    groupId: controller
-                                                            .currentGroup
-                                                            .value
-                                                            ?.id ??
-                                                        "",
-                                                    image: value);
-                                            controller
-                                                .sendMessage(
-                                                    groupId: controller
-                                                            .currentGroup
-                                                            .value
-                                                            ?.id ??
-                                                        "",
-                                                    message: msgController.text,
-                                                    messageType:
-                                                        MessageType.image.name,
-                                                    senderId: controller.uid,
-                                                    senderName: controller
-                                                            .currentUserData
-                                                            .value
-                                                            .getValueOfKey(
-                                                                "name") ??
-                                                        "",
-                                                    image: url)
-                                                .then((value) {
-                                              msgController.clear();
-                                              Get.back();
-                                              Future.delayed(
-                                                  const Duration(seconds: 1),
-                                                  () async {
-                                                _scrollController.animateTo(
-                                                  _scrollController
-                                                      .position.maxScrollExtent,
-                                                  duration: const Duration(
-                                                      milliseconds: 100),
-                                                  curve: Curves.easeOut,
-                                                );
-                                              });
-                                            });
-                                          }
-                                        });
-                                      },
-                                      child: Image.asset(
-                                        ImageConstant.iconGallery,
-                                        height: 60.0,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ));
-                        },
-                        child: const SizedBox(
-                            height: 30.0,
-                            width: 30.0,
-                            child: Icon(
-                              Icons.attach_file_sharp,
-                              color: Colors.grey,
-                            )),
-                      ),
-                      const SizedBox(
-                        width: 10.0,
-                      ),
-                    ],
+                    ),
+                    prefixIcon: Icon(
+                      Icons.emoji_emotions,
+                      color: ColorConstant.primaryColor,
+                      size: 30,
+                    ),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                    isDense: true,
+                    hintText: "Send a message",
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                    border: InputBorder.none,
                   ),
                 ),
               ),
@@ -858,15 +1209,18 @@ class _MessagesViewState extends State<MessagesView> {
                     });
                   });
                 },
-                child: Container(
-                    height: 30.0,
-                    width: 30.0,
-                    decoration: const BoxDecoration(
-                        color: Colors.grey, shape: BoxShape.circle),
-                    child: const Icon(
-                      Icons.navigate_next_rounded,
-                      color: Colors.white,
-                    )),
+                child: SizedBox(
+                  height: 36.0,
+                  width: 36.0,
+                  // color: Colors.red,
+                  child: Image.asset(
+                    'assets/images/Group 1171275130 (1).png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 12.0,
               ),
             ],
           ),
@@ -889,5 +1243,35 @@ class _MessagesViewState extends State<MessagesView> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  String formatCount(String count) {
+    if (count.isEmpty) {
+      return '';
+    }
+    try {
+      int _count = int.parse(count);
+      if (_count > 99) {
+        return '99+';
+      } else {
+        return count;
+      }
+    } catch (e) {
+      return '';
+    }
+  }
+
+  String convertTimestamp(timeStamp) {
+    // The given timestamp in milliseconds
+    int timestamp = timeStamp;
+
+    // Convert the timestamp to DateTime
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
+
+    // Format the DateTime object to the desired string format
+    String formattedDate = DateFormat('EEEE h:mma').format(dateTime);
+
+    // Output the formatted date
+    return formattedDate; // Example output: "Friday 5:50PM"
   }
 }
