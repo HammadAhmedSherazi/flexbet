@@ -5,7 +5,9 @@ import 'package:flexx_bet/helpers/size.dart';
 import 'package:flexx_bet/ui/auth/auth.dart';
 import 'package:flexx_bet/ui/auth/sign_in_with_phone.dart';
 import 'package:flexx_bet/ui/video_player.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'widgets/login_card.dart';
 
@@ -15,7 +17,7 @@ class SignupSignInChoiceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
-      // const VideoForBackground(),
+      const VideoForBackground(),
       SafeArea(
         child: Scaffold(
             /*appBar: AppBar(
@@ -38,15 +40,102 @@ class SignupSignInChoiceScreen extends StatelessWidget {
                       child: Image.asset(ImageConstant.newLogo)),
                   Column(
                     children: [
-                      NewLoginCard(
-                        text: "Sign in with your number",
-                        color: ColorConstant.primaryColor,
-                        imagePath: ImageConstant.callLogo,
+                      GestureDetector(
+                        onTap: () => Get.to(() => const SignInWithPhone()),
+                        child: NewLoginCard(
+                          text: "Sign in with your number",
+                          color: ColorConstant.primaryColor,
+                          imagePath: ImageConstant.callLogo,
+                        ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 13,
                       ),
-                      Row(),
+                      SizedBox(
+                        height: 20,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              width: 73,
+                              child: Divider(
+                                height: 1.5,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              ' Or Sign in with ',
+                              style: TextStyle(
+                                color: ColorConstant.whiteA700,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Poppins',
+                                fontSize: 10,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 73,
+                              child: Divider(
+                                height: 1.5,
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 13,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          socialLoginBox(
+                            onTap: () async {
+                              await AuthController.to
+                                  .registerOrSignInUserWithGoogle();
+                            },
+                            img: ImageConstant.newGoogle,
+                          ),
+                          const SizedBox(
+                            width: 36,
+                          ),
+                          socialLoginBox(
+                            onTap: () async {
+                              await AuthController.to.getLoginTikTok();
+                            },
+                            img: ImageConstant.newTiktok,
+                          ),
+                          const SizedBox(
+                            width: 36,
+                          ),
+                          socialLoginBox(
+                            onTap: () {},
+                            img: ImageConstant.newFacebook,
+                          ),
+                          const SizedBox(
+                            width: 36,
+                          ),
+                          socialLoginBox(
+                            onTap: () {},
+                            img: ImageConstant.newX,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 17,
+                      ),
+                      GestureDetector(
+                        onTap: ()=> Get.to(() => const SignInScreen()),
+                        child: Text(
+                          'Sign in with Email',
+                          style: TextStyle(
+                            color: ColorConstant.whiteA700,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Poppins',
+                            fontSize: 16,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -181,5 +270,17 @@ class SignupSignInChoiceScreen extends StatelessWidget {
             ),
       ),
     ]);
+  }
+
+  Widget socialLoginBox({required VoidCallback onTap, required String img}) {
+    return InkWell(
+      onTap: onTap,
+      child: SizedBox.square(
+        dimension: 50,
+        child: Image.asset(
+          img,
+        ),
+      ),
+    );
   }
 }

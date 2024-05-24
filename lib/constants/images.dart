@@ -242,4 +242,8 @@ class ImageConstant {
   static const String avatar3 = 'assets/images/avatar3.png';
   static const String event_icon = 'assets/images/events-icon.png';
   static const String newLogo = 'assets/images/Group 1171274940.png';
+  static const String newGoogle = 'assets/images/google-icon 2.png';
+  static const String newFacebook = 'assets/images/facebook-svgrepo-com 3.png';
+  static const String newX = 'assets/images/Vector (1).png';
+  static const String newTiktok = 'assets/images/tiktok_new.png';
 }
