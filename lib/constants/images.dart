@@ -176,6 +176,7 @@ class ImageConstant {
   static const String tikTokLogo = 'assets/images/tiktok_logo.png';
 
   static const String phoneLogo = 'assets/images/phone_logo.png';
+  static const String callLogo = 'assets/images/Call-Icon.png';
 
   static const String rightImage = 'assets/images/right_icon_image.png';
 
@@ -240,4 +241,5 @@ class ImageConstant {
   static const String avatar2 = 'assets/images/avatar2.png';
   static const String avatar3 = 'assets/images/avatar3.png';
   static const String event_icon = 'assets/images/events-icon.png';
+  static const String newLogo = 'assets/images/Group 1171274940.png';
 }
