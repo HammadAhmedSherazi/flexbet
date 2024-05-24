@@ -390,13 +390,43 @@ class _MessagesViewState extends State<MessagesView> {
           height: 10,
         ),
         SizedBox(
-          height: 35,
+          height: 43,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(ImageConstant.unsplash),
+              SizedBox(
+                height: 43,
+                width: 41,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 5,
+                      right: 3,
+                      child: CircleAvatar(
+                        radius: 19,
+                        child: Image.asset(
+                          ImageConstant.unsplash2,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        width: 16,
+                        height: 16,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: ColorConstant.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               const SizedBox(
-                width: 8,
+                width: 4,
               ),
               Text(
                 "Please abide to the rules!",
@@ -404,9 +434,13 @@ class _MessagesViewState extends State<MessagesView> {
                     color: ColorConstant.gray500, fontFamily: "Popins"),
               ),
               const SizedBox(
-                width: 8,
+                width: 4,
               ),
-              Image.asset(ImageConstant.pushpin),
+              Image.asset(
+                ImageConstant.pushpin,
+                height: 20,
+                width: 20,
+              ),
             ],
           ),
         ),

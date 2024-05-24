@@ -65,13 +65,15 @@ class _LeaderBoardScreenState extends State<LeaderBoardScreen> {
   Widget build(BuildContext context) {
     landingPageController.onChange = () async {
       Get.log("LandingPageController onChnaged updated");
-      if (landingPageController.tabIndex.value == 3) {
+      if (landingPageController.tabIndex.value == 2) {
         await showLoader(
           () async {
             await leaderboardController.fetchFirstLeaderboardList();
           },
         );
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       }
     };
 

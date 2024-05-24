@@ -31,16 +31,27 @@ Obx buildBottomNavigationMenu(context, [String? img]) {
               color: ColorConstant.primaryColor),
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
+
             showUnselectedLabels: false,
             showSelectedLabels: false,
+            // showSelectedLabels: true,
             onTap: landingPageController.changeTabIndex,
             elevation: 0,
             backgroundColor: Colors.transparent,
             currentIndex: landingPageController.tabIndex.value,
             selectedItemColor: Colors.white,
             // selectedFontSize: 10,
-            // selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-            // unselectedFontSize: 0,
+            unselectedLabelStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+            ),
+            selectedLabelStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+            ),
+            // unselectedFontSize: 12,
             items: [
               // customNavigationBarItem(
               //     label: "Home",
@@ -65,22 +76,26 @@ Obx buildBottomNavigationMenu(context, [String? img]) {
                 height: 30,
                 width: 30,
               ),
-              BottomNavigationBarItem(
+              customNavigationBarItem(
+                label: "Profile",
+                width: 37,
+                height: 35,
+                imagePath: '',
                 icon: CircleAvatar(
-                    // height: 37,
-                    // width: 34,
-                    child: img != null && img.isNotEmpty
-                        ? ClipOval(child: Image.network(img))
-                        : Image.asset(
-                            ImageConstant.avatar3,
-                          )),
-                label: '',
+                  radius: 15,
+                  child: img != null && img.isNotEmpty
+                      ? ClipOval(
+                          child: Image.network(
+                            img,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : Image.asset(
+                          ImageConstant.avatar3,
+                          fit: BoxFit.cover,
+                        ),
+                ),
               ),
-              // customNavigationBarItem(
-              //     label: "Profile",
-              //     width: 37,
-              //     height: 35,
-              //     imagePath: ImageConstant.activePersonIcon),
             ],
           ),
         ),
@@ -91,83 +106,97 @@ EventsController eventsController = EventsController.to;
 final Rxn<List<EventModel>> featuredEvents = Rxn<List<EventModel>>();
 BottomNavigationBarItem customNavigationBarItem(
     {required String imagePath,
+    Widget? icon,
     required String label,
     bool isBagedIcon = false,
     int numberOfMessages = 99,
     required double height,
     required double width}) {
   return BottomNavigationBarItem(
-    activeIcon: SizedBox(
-      // width: 120,
-      child: Column(
-        children: [
-          badges.Badge(
-            position: badges.BadgePosition.topEnd(top: -8),
-            badgeAnimation: const badges.BadgeAnimation.slide(),
-            showBadge: isBagedIcon,
-            badgeStyle: const badges.BadgeStyle(
-              padding: EdgeInsets.all(3),
-              badgeColor: Colors.red,
-            ),
-            badgeContent: Container(
-              height: 12,
-              width: 12,
-              decoration: BoxDecoration(
-                  color: Colors.red, borderRadius: BorderRadius.circular(30)),
-              child: Center(
-                child: Text(
-                  eventsController.featuredEvents.value!.length.toString(),
-                  style: const TextStyle(color: Colors.white, fontSize: 10),
+    activeIcon: icon ??
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            badges.Badge(
+              position: badges.BadgePosition.topEnd(top: -8),
+              badgeAnimation: const badges.BadgeAnimation.slide(),
+              showBadge: isBagedIcon,
+              badgeStyle: const badges.BadgeStyle(
+                padding: EdgeInsets.all(3),
+                badgeColor: Colors.red,
+              ),
+              badgeContent: Container(
+                height: 12,
+                width: 12,
+                decoration: BoxDecoration(
+                    color: Colors.red, borderRadius: BorderRadius.circular(30)),
+                child: Center(
+                  child: Text(
+                    eventsController.featuredEvents.value!.length.toString(),
+                    style: const TextStyle(color: Colors.white, fontSize: 10),
+                  ),
                 ),
               ),
+              child: CustomImageView(
+                imagePath: imagePath,
+                fit: BoxFit.contain,
+                height: height,
+                width: width,
+              ),
             ),
-            child: CustomImageView(
-              imagePath: imagePath,
-              fit: BoxFit.contain,
-              height: height,
-              width: width,
+            const SizedBox(
+              height: 5,
             ),
-          ),
-          // const SizedBox(
-          //   height: 8,
-          // ),
-          // Container( TODO Active Indicator
-          //   decoration: BoxDecoration(
-          //       color: Colors.white, borderRadius: BorderRadius.circular(60)),
-          //   height: 2,
-          //   width: 7,
-          // )
-        ],
-      ),
-    ),
-    icon: Column(
-      children: [
-        badges.Badge(
-          position: badges.BadgePosition.topEnd(top: -8, end: -14),
-          badgeAnimation: const badges.BadgeAnimation.slide(),
-          showBadge: isBagedIcon,
-          badgeStyle: const badges.BadgeStyle(
-            padding: EdgeInsets.all(4),
-            badgeColor: Colors.red,
-          ),
-          badgeContent: Text(
-            numberOfMessages > 99 ? "99+" : numberOfMessages.toString(),
-            style: const TextStyle(color: Colors.white, fontSize: 8),
-          ),
-          child: CustomImageView(
-            imagePath: imagePath,
-            height: height,
-            width: width,
-          ),
+            Text(
+              label,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold),
+            )
+            // const SizedBox(
+            //   height: 8,
+            // ),
+            // Container( TODO Active Indicator
+            //   decoration: BoxDecoration(
+            //       color: Colors.white, borderRadius: BorderRadius.circular(60)),
+            //   height: 2,
+            //   width: 7,
+            // )
+          ],
         ),
-        // const SizedBox(
-        //   height: 10,
-        // ),
-        // Text(
-        //   label,
-        //   style: const TextStyle(
-        //       color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-        // )
+    icon: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        icon ??
+            badges.Badge(
+              position: badges.BadgePosition.topEnd(top: -8, end: -14),
+              badgeAnimation: const badges.BadgeAnimation.slide(),
+              showBadge: isBagedIcon,
+              badgeStyle: const badges.BadgeStyle(
+                padding: EdgeInsets.all(4),
+                badgeColor: Colors.red,
+              ),
+              badgeContent: Text(
+                numberOfMessages > 99 ? "99+" : numberOfMessages.toString(),
+                style: const TextStyle(color: Colors.white, fontSize: 8),
+              ),
+              child: CustomImageView(
+                imagePath: imagePath,
+                height: height,
+                width: width,
+              ),
+            ),
+        const SizedBox(
+          height: 5,
+        ),
+        Text(
+          label,
+          style: TextStyle(
+              color: Colors.white.withOpacity(0.8),
+              fontSize: 10,
+              fontWeight: FontWeight.bold),
+        )
       ],
     ),
     label: label,

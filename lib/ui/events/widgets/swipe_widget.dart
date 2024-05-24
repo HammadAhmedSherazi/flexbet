@@ -162,7 +162,7 @@ class _EventSwiperState extends State<EventSwiper>
                                         isScrollControlled: true);
                                   },
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 7),
+                                    padding: const EdgeInsets.only(left: 5),
                                     child: Image.asset(
                                       ImageConstant.newfilterButton,
                                       height: 40,
@@ -207,12 +207,14 @@ class _EventSwiperState extends State<EventSwiper>
                                     ),
                                   ),
                                 ),
-                                TextButton(
-                                    onPressed: () {
+                                InkWell(
+                                    onTap: () {
                                       captureAndShareScreenshot(
                                           _globalKey, listEvent);
                                     },
                                     child: Container(
+                                      padding: const EdgeInsets.only(right: 5),
+
                                       decoration: BoxDecoration(boxShadow: [
                                         BoxShadow(
                                           color: Colors.black.withOpacity(0.54),

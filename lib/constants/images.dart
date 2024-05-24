@@ -204,7 +204,9 @@ class ImageConstant {
   static const String yesIcon = 'assets/images/yes_icon.png';
   static const String noIcon = 'assets/images/no_icon.png';
   static const String unsplash = 'assets/images/unsplash.png';
-  static const String pushpin = 'assets/images/pushpin.png';
+  static const String unsplash2 = 'assets/images/unsplash_mEZ3PoFGs_k.png';
+  static const String pushpin = 'assets/images/Pushpin (2).png';
+  static const String pushpinSvg = 'assets/images/Pushpin.svg';
   static const String heart = 'assets/images/heart.png';
   static const String export = 'assets/images/export.png';
   static const String eye = 'assets/images/eye.png';
